@@ -1,0 +1,853 @@
+{
+  "name": "Integração  Apito de Mestre.",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3832f39d-ff49-41eb-8d39-8e530b4e9c8d",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -400
+      ],
+      "id": "4d8deb6e-f4fc-4696-bd23-0935bf1aaace",
+      "name": "Orçamento Cadastrado (Meeventos)",
+      "webhookId": "3832f39d-ff49-41eb-8d39-8e530b4e9c8d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "217a66f7-4fa3-4f55-961b-b93fc75f04e2",
+              "name": "Nome",
+              "value": "={{ $json.body.data[0].nome }}",
+              "type": "string"
+            },
+            {
+              "id": "3503fe1c-5df5-4e90-87de-79249e234a37",
+              "name": "Email",
+              "value": "={{ $json.body.data[0].email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        -400
+      ],
+      "id": "b4b3c85d-f7a1-4132-9854-061f9d3d814a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.lahar.com.br/api/conversions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token_api_lahar",
+              "value": "apitodem3COHfujoWcWsN4ac7nhvqMXaPEhSsrE6VEWNlcLJheMSW3T477N4HeHx"
+            },
+            {
+              "name": "nome_formulario",
+              "value": "Integracao-brandsp-n8n"
+            },
+            {
+              "name": "email_contato",
+              "value": "={{ $json.Email }}"
+            },
+            {
+              "name": "nome_contato",
+              "value": "={{ $json.Nome }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1024,
+        -400
+      ],
+      "id": "2b713f97-c230-46ae-a92d-d8108f78eb2e",
+      "name": "Criar contato"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "07c55339-a3b8-4d52-b8f8-4bf6682e5bea",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -400
+      ],
+      "id": "102d392b-ec4b-4738-8ecd-24ecb2ce736f",
+      "name": "Lead Qualificado da Ramper",
+      "webhookId": "07c55339-a3b8-4d52-b8f8-4bf6682e5bea"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "217a66f7-4fa3-4f55-961b-b93fc75f04e2",
+              "name": "Nome",
+              "value": "={{ $json.body.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "3503fe1c-5df5-4e90-87de-79249e234a37",
+              "name": "Email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "491e0a8d-c2df-43cc-9044-ad4326fb0e7d",
+              "name": "Estagio",
+              "value": "={{ $json.body.nome_estagio }}",
+              "type": "string"
+            },
+            {
+              "id": "6db3114e-b119-49dd-acb1-35ce5ab97b46",
+              "name": "Cargo",
+              "value": "={{ $json.body.cargo }}",
+              "type": "string"
+            },
+            {
+              "id": "f98d8c78-ec07-48f3-b25e-ac231ce44b87",
+              "name": "Tags",
+              "value": "={{ $json.body.tags }}",
+              "type": "string"
+            },
+            {
+              "id": "2690b1b5-6da6-42f0-a761-453fefa006ce",
+              "name": "Origem",
+              "value": "={{ $json.body.origem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        -400
+      ],
+      "id": "f1e994df-0579-4554-ab3b-fcfabac9ae83",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://apitodemestrecombr.kommo.com/api/v4/leads/complex",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlNWY0NTgwZjE5ZDg1MjZjMDAxZGJjOWZlMmJiMTM0YTc0Nzg3NDA2OWRkMjMwYjk3YjcxMzk4NTYwYjkwMDY4MmQ1YWI1ZjhkN2QwY2I1In0.eyJhdWQiOiI1NGI4ZGYzNS0wOWUxLTQ5YzgtYjE0MS0xYzQ3ZDE3N2JjOTIiLCJqdGkiOiI2ZTVmNDU4MGYxOWQ4NTI2YzAwMWRiYzlmZTJiYjEzNGE3NDc4NzQwNjlkZDIzMGI5N2I3MTM5ODU2MGI5MDA2ODJkNWFiNWY4ZDdkMGNiNSIsImlhdCI6MTc1MDk5OTQwMiwibmJmIjoxNzUwOTk5NDAyLCJleHAiOjE3ODYxNDcyMDAsInN1YiI6IjExMjA1Nzk1IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMyNzkzODgzLCJiYXNlX2RvbWFpbiI6ImtvbW1vLmNvbSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJjcm0iLCJmaWxlcyIsImZpbGVzX2RlbGV0ZSIsIm5vdGlmaWNhdGlvbnMiLCJwdXNoX25vdGlmaWNhdGlvbnMiXSwiaGFzaF91dWlkIjoiM2Q1M2Y4MGMtNDdiNS00ZGU5LWEyM2YtNDRiODQ3ZTQxOGU4IiwiYXBpX2RvbWFpbiI6ImFwaS1nLmtvbW1vLmNvbSJ9.BniaurGgzKuBPe8tMdYxhpVBwbLrSPCcle8HNcm9AdwojuICa6sK-rDS0X9nArWTOo-dXa1gEpueCkgQ3C0ERxQOeWQupqZNipaI6J2w40QOX7GWLz0RBzyV5qX3skaom0u_IXY6kg_GcVFWSfQJ-xqVgSYkkiO_O4vi-5HqttNTDKqEuknlWHeUakrPB_RzNPE59r_E84A1APBSFgoKTafthtTxVtmUyI2WHU5-BXqzW9-dukCLC5KRjHpzPczekooisi6ROZA_tv2hc2s8SVgintB91h7zWXS4_kxm7t9e2ZECm5kkBaqBE8-ZHxiwinaFDtHrVLk3H67a2pqhPA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "[\n  {\n    \"request_id\": \"1\",\n    \"name\": \"Kauann\",\n    \"status_id\": 79096919,\n    \"pipeline_id\": 8668175,\n    \"_embedded\": {\n      \"contacts\": [\n        {\n          \"name\": \"Kauann Contato\",\n          \"custom_fields_values\": [\n            {\n              \"field_code\": \"EMAIL\",\n              \"values\": [\n                {\n                  \"value\": \"kauann@example.com\"\n                }\n              ]\n            },\n            {\n              \"field_code\": \"PHONE\",\n              \"values\": [\n                {\n                  \"value\": \"+5511999887766\"\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    }\n  }\n]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        -400
+      ],
+      "id": "bf44f704-5397-4915-acb4-70dcffef8ed6",
+      "name": "Enviar Kommo"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d10f87ab-7e40-4dfa-94a6-9dd78443c7cd",
+              "name": "ID da conta",
+              "value": "={{ $json.body['contacts[add][0][id]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d1f54bb6-f927-4cfa-8d1c-909738d3df6d",
+              "name": "Email",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][0][values][0][value]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7a49451a-cc4e-4e39-864d-7adea53672b7",
+              "name": "Nome",
+              "value": "={{ $json.body['contacts[add][0][name]'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        -688
+      ],
+      "id": "cebc66c9-6c9e-41f8-b677-ff75ebb2d855",
+      "name": "Separar infos"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.lahar.com.br/api/conversions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token_api_lahar",
+              "value": "apitodem3COHfujoWcWsN4ac7nhvqMXaPEhSsrE6VEWNlcLJheMSW3T477N4HeHx"
+            },
+            {
+              "name": "nome_formulario",
+              "value": "Contato, Lead, Empresa - Criado na Kommo - Brandsp"
+            },
+            {
+              "name": "email_contato",
+              "value": "={{ $json.Email }}"
+            },
+            {
+              "name": "nome_contato",
+              "value": "={{ $json.Nome }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        992,
+        -688
+      ],
+      "id": "84f15467-5bd5-45ae-b11a-1aeacd223f35",
+      "name": "Enviar para Ramper"
+    },
+    {
+      "parameters": {
+        "path": "6370f974-3833-4700-bb52-eea2e113d14a",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -688
+      ],
+      "id": "3bde75d8-cb37-42ab-bee5-bfed705d86ab",
+      "name": "Lead perdido na Kommo",
+      "webhookId": "6370f974-3833-4700-bb52-eea2e113d14a"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.lahar.com.br/api/conversions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token_api_lahar",
+              "value": "apitodem3COHfujoWcWsN4ac7nhvqMXaPEhSsrE6VEWNlcLJheMSW3T477N4HeHx"
+            },
+            {
+              "name": "nome_formulario",
+              "value": "Contato, Lead, Empresa - Criado na Kommo - Brandsp"
+            },
+            {
+              "name": "email_contato",
+              "value": "={{ $json.Email }}"
+            },
+            {
+              "name": "nome_contato",
+              "value": "={{ $json.Nome }}"
+            },
+            {
+              "name": "tel_celular",
+              "value": "={{ $json.Telefone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        -688
+      ],
+      "id": "fb9c83ba-ef41-4316-8b57-4f0aff6ca173",
+      "name": "Enviar para Ramper1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7ad4b448-846d-4fd0-9e6e-725da9c19272",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        544,
+        -864
+      ],
+      "id": "615f1b01-a0fa-4f28-a227-fe66c265b2f5",
+      "name": "Ganho na Komo",
+      "webhookId": "7ad4b448-846d-4fd0-9e6e-725da9c19272"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.lahar.com.br/api/conversions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token_api_lahar",
+              "value": "apitodem3COHfujoWcWsN4ac7nhvqMXaPEhSsrE6VEWNlcLJheMSW3T477N4HeHx"
+            },
+            {
+              "name": "nome_formulario",
+              "value": "Contato, Lead, Empresa - Criado na Kommo - Brandsp"
+            },
+            {
+              "name": "email_contato",
+              "value": "={{ $json.Email }}"
+            },
+            {
+              "name": "nome_contato",
+              "value": "={{ $json.Nome }}"
+            },
+            {
+              "name": "tel_celular",
+              "value": "={{ $json.Telefone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        992,
+        -864
+      ],
+      "id": "5eb272b4-ddcd-4e50-a299-8cb14400ea89",
+      "name": "Enviar para Ramper2"
+    },
+    {
+      "parameters": {
+        "path": "063e1f54-a37e-42bf-894a-9b9e5fc50b5c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -864
+      ],
+      "id": "fef58c83-885a-485c-89ab-2afe7ce31ef9",
+      "name": "Reuniao agendada Kommo",
+      "webhookId": "063e1f54-a37e-42bf-894a-9b9e5fc50b5c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.lahar.com.br/api/conversions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token_api_lahar",
+              "value": "apitodem3COHfujoWcWsN4ac7nhvqMXaPEhSsrE6VEWNlcLJheMSW3T477N4HeHx"
+            },
+            {
+              "name": "nome_formulario",
+              "value": "Contato, Lead, Empresa - Criado na Kommo - Brandsp"
+            },
+            {
+              "name": "email_contato",
+              "value": "={{ $json.Email }}"
+            },
+            {
+              "name": "nome_contato",
+              "value": "={{ $json.Nome }}"
+            },
+            {
+              "name": "tel_celular",
+              "value": "={{ $json.Telefone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        -864
+      ],
+      "id": "847fed49-ddf6-44b5-bef2-2c27aefccc45",
+      "name": "Enviar para Ramper3"
+    },
+    {
+      "parameters": {
+        "content": "## Kommo -> Ramper",
+        "height": 420,
+        "width": 1380,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -944
+      ],
+      "id": "bded2729-2aa0-467d-b2fe-d3915a6518eb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Ramper -> Kommo",
+        "height": 320,
+        "width": 660,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -496
+      ],
+      "id": "85c67550-8020-44ac-83b6-55224d48b60d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## MeEventos -> Ramper",
+        "height": 320,
+        "width": 680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -496
+      ],
+      "id": "12bd42a4-774c-4087-983e-473ff4e6c59e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d10f87ab-7e40-4dfa-94a6-9dd78443c7cd",
+              "name": "ID da conta",
+              "value": "={{ $json.body['contacts[add][0][id]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d1f54bb6-f927-4cfa-8d1c-909738d3df6d",
+              "name": "Email",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][1][values][0][value]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7a49451a-cc4e-4e39-864d-7adea53672b7",
+              "name": "Nome",
+              "value": "={{ $json.body['contacts[add][0][name]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ec0a2c8e-2112-45d1-84af-a60648c8f6c4",
+              "name": "Telefone",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][0][values][0][value]'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        -864
+      ],
+      "id": "b414254f-ba14-4faa-b11b-d282e98321e9",
+      "name": "Separar infos1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d10f87ab-7e40-4dfa-94a6-9dd78443c7cd",
+              "name": "ID da conta",
+              "value": "={{ $json.body['contacts[add][0][id]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d1f54bb6-f927-4cfa-8d1c-909738d3df6d",
+              "name": "Email",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][1][values][0][value]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7a49451a-cc4e-4e39-864d-7adea53672b7",
+              "name": "Nome",
+              "value": "={{ $json.body['contacts[add][0][name]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ec0a2c8e-2112-45d1-84af-a60648c8f6c4",
+              "name": "Telefone",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][0][values][0][value]'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -864
+      ],
+      "id": "8f9fe4b5-9394-48b6-938f-98bd045cb5be",
+      "name": "Separar infos2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d10f87ab-7e40-4dfa-94a6-9dd78443c7cd",
+              "name": "ID da conta",
+              "value": "={{ $json.body['contacts[add][0][id]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d1f54bb6-f927-4cfa-8d1c-909738d3df6d",
+              "name": "Email",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][1][values][0][value]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7a49451a-cc4e-4e39-864d-7adea53672b7",
+              "name": "Nome",
+              "value": "={{ $json.body['contacts[add][0][name]'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ec0a2c8e-2112-45d1-84af-a60648c8f6c4",
+              "name": "Telefone",
+              "value": "={{ $json.body['contacts[add][0][custom_fields][0][values][0][value]'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -688
+      ],
+      "id": "7d2af745-8864-4073-8e3b-4084d6823204",
+      "name": "Separar infos3"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b6fe496d-a79b-453c-8b3e-7d793fd14813",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        544,
+        -688
+      ],
+      "id": "1faf0402-2127-46e2-8ebb-0ce6644c6d45",
+      "name": "Criado: Contato",
+      "webhookId": "b6fe496d-a79b-453c-8b3e-7d793fd14813"
+    }
+  ],
+  "pinData": {
+    "Ganho na Komo": [
+      {
+        "json": {
+          "headers": {
+            "host": "brandsp.app.n8n.cloud",
+            "user-agent": "amoCRM-Webhooks/3.0",
+            "content-length": "309",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "169.150.216.79",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "95b9d195206bf0c0-DFW",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-amocrm-requestid": "f5672f71-3673-407e-ae8a-943ba60a651e",
+            "x-forwarded-for": "169.150.216.79, 172.70.94.65",
+            "x-forwarded-host": "brandsp.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-20-65bb84f5c9-zzjlm",
+            "x-is-trusted": "yes",
+            "x-real-ip": "169.150.216.79"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "leads[status][0][id]": "25611955",
+            "leads[status][0][status_id]": "142",
+            "leads[status][0][pipeline_id]": "8668175",
+            "leads[status][0][old_status_id]": "79096919",
+            "leads[status][0][old_pipeline_id]": "8668175",
+            "account[id]": "32793883",
+            "account[subdomain]": "apitodemestrecombr"
+          },
+          "webhookUrl": "https://brandsp.app.n8n.cloud/webhook-test/7ad4b448-846d-4fd0-9e6e-725da9c19272",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Orçamento Cadastrado (Meeventos)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Criar contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar contato": {
+      "main": [
+        []
+      ]
+    },
+    "Lead Qualificado da Ramper": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Enviar Kommo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar infos": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Ramper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead perdido na Kommo": {
+      "main": [
+        [
+          {
+            "node": "Separar infos3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ganho na Komo": {
+      "main": [
+        [
+          {
+            "node": "Separar infos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reuniao agendada Kommo": {
+      "main": [
+        [
+          {
+            "node": "Separar infos2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar infos2": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Ramper3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar infos3": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Ramper1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar infos1": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Ramper2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criado: Contato": {
+      "main": [
+        [
+          {
+            "node": "Separar infos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "eb0e03f1-7165-4ca3-8fdc-50c817b0dc88",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "734d140af23b2d643175e3a9d97bc76bc66165b069280152df2bf12208daeb48"
+  },
+  "id": "uNafWXeZETDEucOi",
+  "tags": []
+}
